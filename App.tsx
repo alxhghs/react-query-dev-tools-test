@@ -23,12 +23,20 @@ export default function App() {
 
 const Child = () => {
     const { data } = useQuery({
-        queryKey: ["coffee", "hot"],
+        queryKey: ["coffee"],
         queryFn: async () => {
-            return await fetch("https://api.sampleapis.com/coffee/hot");
+            return await fetch("https://api.sampleapis.com/beers/ale").then((res) => res.json());
         },
     });
-    return <Text>{JSON.stringify(data)}</Text>;
+    const { data: otherQuery } = useQuery({
+        queryKey: ["games"],
+        queryFn: async () => {
+            return await fetch("https://api.sampleapis.com/switch/games").then((res) => res.json());
+        },
+    });
+    console.log(JSON.stringify(data, null, 2))
+    console.log(JSON.stringify(otherQuery, null, 2))
+    return <Text>{JSON.stringify(otherQuery)}</Text>;
 };
 
 const styles = StyleSheet.create({
